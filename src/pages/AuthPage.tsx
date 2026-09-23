@@ -48,7 +48,13 @@ export default function AuthPage() {
       const { error } = await signUp(email.trim(), password);
       setSubmitting(false);
       if (error) {
-        setErrorMessage(error.message);
+        if (error.message.toLowerCase().includes("rate limit")) {
+          setErrorMessage(
+            "Supabase email rate limit reached. To fix: In your Supabase Dashboard, go to Authentication -> Providers -> Email and turn OFF 'Confirm email'. This allows unlimited instant sign-ups without sending emails."
+          );
+        } else {
+          setErrorMessage(error.message);
+        }
       } else {
         setSuccessMessage(
           "Account created successfully! If your Supabase project requires email confirmation, check your inbox. Otherwise, you can now sign in."
