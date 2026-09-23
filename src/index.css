@@ -1,20 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-:root {
+:root,
+[data-theme="light"] {
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   
-  /* Modern Dark Palette */
-  --bg-body: #0b0f19;
-  --bg-surface: #111827;
-  --bg-card: rgba(22, 30, 49, 0.75);
-  --bg-card-hover: rgba(30, 41, 69, 0.85);
-  --bg-input: #1a2234;
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-active: rgba(99, 102, 241, 0.5);
+  /* Crisp Modern Light Palette */
+  --bg-body: #f8fafc;
+  --bg-gradient-1: rgba(99, 102, 241, 0.08);
+  --bg-gradient-2: rgba(168, 85, 247, 0.06);
 
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fcfdfe;
+  --bg-input: #f1f5f9;
+  --bg-nav: rgba(255, 255, 255, 0.88);
+  --bg-modal: #ffffff;
+  --bg-tabs: #e2e8f0;
+  --bg-tab-active: #ffffff;
+  --text-tab-active: #0f172a;
+  --bg-pill: #f1f5f9;
+  --bg-check-btn: #f8fafc;
+  --border-check-btn: #cbd5e1;
+
+  --border-subtle: #e2e8f0;
+  --border-active: rgba(99, 102, 241, 0.6);
+
+  --text-main: #0f172a;
+  --text-muted: #475569;
   --text-dim: #64748b;
+
+  --auth-title-gradient: linear-gradient(135deg, #0f172a 30%, #334155 100%);
 
   /* Vibrant Accents */
   --primary: #6366f1;
@@ -24,30 +39,70 @@
   --success: #10b981;
   --success-bg: rgba(16, 185, 129, 0.12);
   --danger: #ef4444;
-  --danger-bg: rgba(239, 68, 68, 0.12);
-  --danger-border: rgba(239, 68, 68, 0.35);
+  --danger-bg: rgba(239, 68, 68, 0.08);
+  --danger-border: rgba(239, 68, 68, 0.3);
 
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 20px;
   --radius-full: 9999px;
 
+  --shadow-card: 0 10px 25px -4px rgba(0, 0, 0, 0.06), 0 0 1px 1px rgba(0, 0, 0, 0.05);
+  --shadow-glow: 0 0 25px rgba(99, 102, 241, 0.2);
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-hover: #94a3b8;
+}
+
+[data-theme="dark"] {
+  /* Modern Dark Palette */
+  --bg-body: #0b0f19;
+  --bg-gradient-1: rgba(99, 102, 241, 0.14);
+  --bg-gradient-2: rgba(168, 85, 247, 0.12);
+
+  --bg-surface: #111827;
+  --bg-card: rgba(22, 30, 49, 0.75);
+  --bg-card-hover: rgba(30, 41, 69, 0.85);
+  --bg-input: #1a2234;
+  --bg-nav: rgba(17, 24, 39, 0.85);
+  --bg-modal: #151d2f;
+  --bg-tabs: rgba(0, 0, 0, 0.3);
+  --bg-tab-active: rgba(255, 255, 255, 0.1);
+  --text-tab-active: #ffffff;
+  --bg-pill: rgba(255, 255, 255, 0.05);
+  --bg-check-btn: rgba(255, 255, 255, 0.05);
+  --border-check-btn: rgba(255, 255, 255, 0.15);
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-active: rgba(99, 102, 241, 0.5);
+
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  --auth-title-gradient: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+
+  --danger-bg: rgba(239, 68, 68, 0.12);
+  --danger-border: rgba(239, 68, 68, 0.35);
+
   --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.45), 0 0 1px 1px var(--border-subtle);
   --shadow-glow: 0 0 25px rgba(99, 102, 241, 0.28);
+  --scrollbar-thumb: #232d42;
+  --scrollbar-hover: #334155;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.2s ease;
 }
 
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-body);
   background-image: 
-    radial-gradient(ellipse at 15% 10%, rgba(99, 102, 241, 0.14) 0%, transparent 45%),
-    radial-gradient(ellipse at 85% 85%, rgba(168, 85, 247, 0.12) 0%, transparent 45%);
+    radial-gradient(ellipse at 15% 10%, var(--bg-gradient-1) 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 85%, var(--bg-gradient-2) 0%, transparent 45%);
   background-attachment: fixed;
   color: var(--text-main);
   min-height: 100vh;
@@ -80,9 +135,9 @@ button, input, select {
   background: var(--bg-body);
 }
 ::-webkit-scrollbar-thumb {
-  background: #232d42;
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: var(--scrollbar-hover);
 }

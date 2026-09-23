@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function AuthPage() {
   const { user, loading: authLoading, signIn, signUp } = useAuth();
@@ -65,6 +66,10 @@ export default function AuthPage() {
 
   return (
     <div className="auth-container">
+      <div className="auth-theme-position">
+        <ThemeToggle />
+      </div>
+
       <div className="auth-card">
         {/* Logo / Header */}
         <div className="auth-header">

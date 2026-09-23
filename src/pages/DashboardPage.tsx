@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { supabase, type Habit, type DailyLog } from "../lib/supabase";
 import HabitList from "../components/HabitList";
 import HabitModal from "../components/HabitModal";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function DashboardPage() {
   const { user, signOut } = useAuth();
@@ -282,6 +283,8 @@ export default function DashboardPage() {
         </div>
 
         <div className="nav-user-actions">
+          <ThemeToggle />
+
           <div className="user-email-chip" title={user?.email || "User"}>
             <span className="user-status-dot" />
             <span className="user-email-text">{user?.email}</span>
