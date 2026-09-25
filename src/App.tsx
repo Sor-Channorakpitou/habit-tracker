@@ -4,6 +4,8 @@ import { ThemeProvider } from "./context/ThemeContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthPage from "./pages/AuthPage";
 import DashboardPage from "./pages/DashboardPage";
+import UpdateToast from "./components/UpdateToast";
+import InstallPrompt from "./components/InstallPrompt";
 import "./App.css";
 
 function App() {
@@ -11,6 +13,7 @@ function App() {
     <ThemeProvider>
       <BrowserRouter>
         <AuthProvider>
+          <InstallPrompt />
           <Routes>
             {/* Public Auth Route */}
             <Route path="/login" element={<AuthPage />} />
@@ -28,6 +31,7 @@ function App() {
             {/* Fallback redirect */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+          <UpdateToast />
         </AuthProvider>
       </BrowserRouter>
     </ThemeProvider>

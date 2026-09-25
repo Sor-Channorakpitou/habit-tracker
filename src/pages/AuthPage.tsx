@@ -65,7 +65,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="auth-container">
+    <main className="auth-container">
       <div className="auth-theme-position">
         <ThemeToggle />
       </div>
@@ -90,6 +90,8 @@ export default function AuthPage() {
         <div className="auth-tabs" role="tablist">
           <button
             type="button"
+            role="tab"
+            aria-selected={mode === "signin"}
             className={`auth-tab ${mode === "signin" ? "active" : ""}`}
             onClick={() => {
               setMode("signin");
@@ -101,6 +103,8 @@ export default function AuthPage() {
           </button>
           <button
             type="button"
+            role="tab"
+            aria-selected={mode === "signup"}
             className={`auth-tab ${mode === "signup" ? "active" : ""}`}
             onClick={() => {
               setMode("signup");
@@ -262,6 +266,6 @@ export default function AuthPage() {
         </div>
 
       </div>
-    </div>
+    </main>
   );
 }

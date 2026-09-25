@@ -111,7 +111,11 @@ export default function HabitList({
                 <span className="habit-pill frequency-pill">
                   {habit.frequency}
                 </span>
-                {habit.streak && habit.streak > 0 ? (
+                {habit.is_queued ? (
+                  <span className="habit-pill queued-pill" title="Saved locally on this device. Syncs automatically upon reconnection.">
+                    ⏳ Queued for sync
+                  </span>
+                ) : habit.streak && habit.streak > 0 ? (
                   <span className="habit-pill streak-pill">
                     🔥 {habit.streak} {habit.streak === 1 ? "day" : "days"} streak
                   </span>

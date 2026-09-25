@@ -19,6 +19,8 @@ export interface Habit {
   // Computed / client-side properties
   is_completed_today?: boolean;
   streak?: number;
+  is_queued?: boolean;
+  sync_status?: "synced" | "pending" | "failed";
 }
 
 export interface DailyLog {
