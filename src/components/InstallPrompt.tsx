@@ -93,6 +93,7 @@ export const InstallPrompt: React.FC = () => {
             alt="HabitPulse icon"
             width="40"
             height="40"
+            loading="lazy"
             className="pwa-install-logo"
           />
         </div>

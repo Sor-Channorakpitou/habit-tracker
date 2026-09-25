@@ -251,6 +251,9 @@ export default function AvatarUploadModal({
                     src={currentAvatarUrl}
                     alt="Current Avatar"
                     className="avatar-image-actual"
+                    width={96}
+                    height={96}
+                    loading="lazy"
                   />
                 ) : (
                   <div className="avatar-initials-fallback">{userInitial}</div>
@@ -275,6 +278,9 @@ export default function AvatarUploadModal({
                     src={previewUrl}
                     alt="New avatar preview"
                     className="avatar-image-actual new-preview"
+                    width={96}
+                    height={96}
+                    loading="lazy"
                   />
                 ) : (
                   <div className="avatar-empty-placeholder">

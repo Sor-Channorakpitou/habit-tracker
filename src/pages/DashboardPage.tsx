@@ -667,7 +667,14 @@ export default function DashboardPage() {
             >
               <div className="nav-avatar-circle">
                 {avatarUrl ? (
-                  <img src={avatarUrl} alt="User avatar" className="nav-avatar-img" />
+                  <img
+                    src={avatarUrl}
+                    alt="User avatar"
+                    className="nav-avatar-img"
+                    width={36}
+                    height={36}
+                    loading="lazy"
+                  />
                 ) : (
                   <span>{user?.email?.charAt(0).toUpperCase() || "U"}</span>
                 )}
