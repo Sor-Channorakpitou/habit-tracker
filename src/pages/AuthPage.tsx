@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import ThemeToggle from "../components/ThemeToggle";
 
 export default function AuthPage() {
-  const { user, loading: authLoading, signIn, signUp } = useAuth();
+  const { user, loading: authLoading, signIn, signUp, demoSignIn } = useAuth();
   const navigate = useNavigate();
 
   const [mode, setMode] = useState<"signin" | "signup">("signin");
@@ -206,6 +206,23 @@ export default function AuthPage() {
               <span>{mode === "signin" ? "Sign In to Tracker" : "Create My Account"}</span>
             )}
           </button>
+
+          <div style={{ display: "flex", alignItems: "center", margin: "16px 0 8px 0", gap: "10px" }}>
+            <div style={{ flex: 1, height: "1px", background: "var(--border-subtle)" }} />
+            <span style={{ fontSize: "12px", color: "var(--text-muted)", textTransform: "uppercase" }}>or</span>
+            <div style={{ flex: 1, height: "1px", background: "var(--border-subtle)" }} />
+          </div>
+
+          <button
+            type="button"
+            className="btn btn-secondary btn-block"
+            onClick={async () => {
+              await demoSignIn();
+              navigate("/", { replace: true });
+            }}
+          >
+            <span>⚡ Instant Demo Access</span>
+          </button>
         </form>
 
         <div className="auth-footer">
@@ -243,6 +260,7 @@ export default function AuthPage() {
             )}
           </p>
         </div>
+
       </div>
     </div>
   );

@@ -28,3 +28,10 @@ export interface DailyLog {
   completed_at: string;
   created_at: string;
 }
+
+export interface Profile {
+  id: string;
+  avatar_url: string | null;
+  updated_at: string;
+}
+

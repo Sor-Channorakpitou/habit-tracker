@@ -88,14 +88,83 @@ CREATE POLICY "Users can delete their own daily logs"
     USING (auth.uid() = user_id);
 
 -- ==========================================================
--- OPTIONAL SEED DATA (Run while logged in via Supabase dashboard or app)
--- Note: In Supabase SQL editor, auth.uid() may be null unless running as an authenticated user,
--- so you can replace 'YOUR_USER_ID_HERE' with your auth user UUID from auth.users.
+-- 3. Create the `profiles` table for user profile & avatar URL
 -- ==========================================================
-/*
-INSERT INTO public.habits (user_id, name, color, frequency)
-VALUES 
-    (auth.uid(), 'Morning Meditation', '#8b5cf6', 'daily'),
-    (auth.uid(), 'Read 20 Pages', '#3b82f6', 'daily'),
-    (auth.uid(), 'Hit Gym / Workout', '#10b981', 'weekdays');
-*/
+CREATE TABLE IF NOT EXISTS public.profiles (
+    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    avatar_url TEXT,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public profiles are viewable by everyone" ON public.profiles;
+DROP POLICY IF EXISTS "Users can insert their own profile" ON public.profiles;
+DROP POLICY IF EXISTS "Users can update their own profile" ON public.profiles;
+
+CREATE POLICY "Public profiles are viewable by everyone"
+    ON public.profiles FOR SELECT
+    USING (true);
+
+CREATE POLICY "Users can insert their own profile"
+    ON public.profiles FOR INSERT
+    WITH CHECK (auth.uid() = id);
+
+CREATE POLICY "Users can update their own profile"
+    ON public.profiles FOR UPDATE
+    USING (auth.uid() = id)
+    WITH CHECK (auth.uid() = id);
+
+-- ==========================================================
+-- 4. STORAGE BUCKET & FOLDER-LOCKED STORAGE POLICIES
+-- ==========================================================
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+    'avatars',
+    'avatars',
+    true,
+    1048576,
+    ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml']
+)
+ON CONFLICT (id) DO UPDATE SET
+    public = true,
+    file_size_limit = 1048576,
+    allowed_mime_types = ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
+
+DROP POLICY IF EXISTS "Public can view avatar images" ON storage.objects;
+DROP POLICY IF EXISTS "Users can upload avatar into own folder" ON storage.objects;
+DROP POLICY IF EXISTS "Users can update avatar in own folder" ON storage.objects;
+DROP POLICY IF EXISTS "Users can delete avatar from own folder" ON storage.objects;
+
+CREATE POLICY "Public can view avatar images"
+    ON storage.objects FOR SELECT
+    USING (bucket_id = 'avatars');
+
+CREATE POLICY "Users can upload avatar into own folder"
+    ON storage.objects FOR INSERT
+    TO authenticated
+    WITH CHECK (
+        bucket_id = 'avatars'
+        AND (storage.foldername(name))[1] = auth.uid()::text
+    );
+
+CREATE POLICY "Users can update avatar in own folder"
+    ON storage.objects FOR UPDATE
+    TO authenticated
+    USING (
+        bucket_id = 'avatars'
+        AND (storage.foldername(name))[1] = auth.uid()::text
+    )
+    WITH CHECK (
+        bucket_id = 'avatars'
+        AND (storage.foldername(name))[1] = auth.uid()::text
+    );
+
+CREATE POLICY "Users can delete avatar from own folder"
+    ON storage.objects FOR DELETE
+    TO authenticated
+    USING (
+        bucket_id = 'avatars'
+        AND (storage.foldername(name))[1] = auth.uid()::text
+    );
+
